@@ -1,0 +1,4 @@
+uuid
+redis
+types-redis
+apache-airflow

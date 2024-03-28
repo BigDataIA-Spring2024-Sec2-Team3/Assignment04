@@ -1,0 +1,36 @@
+version: "3.8"
+
+networks: 
+ Assignment04:
+
+services:
+  streamlit:
+    build:
+      context: ./Streamlit
+      dockerfile: ./dockerfile  # Assuming the Dockerfile is named "dockerfile" within the Streamlit directory
+    ports:
+      - "8503:8503"
+    volumes:
+      - ./Streamlit:/Streamlit  # Mapping to /Streamlit directory inside the container
+      - ~/.aws:/root/.aws:ro
+    networks:
+      - Assignment04
+
+  fastapi:
+    build:
+      context: ./FastAPI
+      dockerfile: ./dockerfile  # Assuming the Dockerfile is named "dockerfile" within the FastAPI directory
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./FastAPI:/FastAPI  # Mapping to /FastAPI directory inside the container
+    networks:
+      - Assignment04
+
+  airflow:
+    image: apache/airflow:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - Assignment04
+
