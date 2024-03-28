@@ -24,6 +24,7 @@ if number_of_files > 0:
         s3_resource = boto3.resource('s3')
 
         # Iterate through the uploaded files and upload to S3
+        s3_urls = []  # Store S3 URLs
         for file in uploaded_files:
             file_bytes = file.read()
             file_name = file.name  # Get the original file name
@@ -33,16 +34,21 @@ if number_of_files > 0:
                 Key=file_name,
                 Body=file_bytes
             )
+            
+            # Construct S3 URL
+            s3_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{file_name}"
+            s3_urls.append(s3_url)
 
         st.success("All files uploaded!")
 
-        # Trigger FastAPI service and provide S3 location
-        s3_location = f"s3://{BUCKET_NAME}/"  # Construct S3 location
-        #response = requests.post("http://localhost:8000/trigger-airflow/", json={"s3_location": s3_location})
-        response = requests.post("http://fastapi:8000/trigger-airflow/", json={"s3_location": s3_location})
-        if response.status_code == 200:
+        # Trigger FastAPI service and provide S3 locations
+        try:
+            response = requests.post("http://fastapi:8000/trigger-airflow/", json=s3_urls)
+            response.raise_for_status()  # Raise exception for non-200 status codes
             st.success("FastAPI triggered successfully!")
-        else:
-            st.error("Failed to trigger FastAPI. Please try again.")
+        except requests.HTTPError as e:
+            st.error(f"Failed to trigger FastAPI: {e.response.text}")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
     elif uploaded_files is not None:
         st.warning(f"Please upload exactly {number_of_files} files.")
