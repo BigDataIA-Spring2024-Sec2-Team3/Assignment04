@@ -1,15 +1,6 @@
 import streamlit as st
 import requests
 import boto3
-from dotenv import load_dotenv
-import os
-
-load_dotenv(override=True)
-
-ak = os.getenv("AWS_SK")
-aki = os.getenv("AWS_AK")
-st.write(aki)
-st.write(ak)
 
 # Streamlit UI
 st.title("Welcome to our application")
@@ -30,7 +21,7 @@ if number_of_files > 0:
         BUCKET_NAME = "assignment04team03"
         
         # Create an S3 resource
-        s3_resource = boto3.resource('s3',aws_access_key_id = aki, aws_secret_access_key =ak)
+        s3_resource = boto3.resource('s3')
 
         # Iterate through the uploaded files and upload to S3
         s3_urls = []  # Store S3 URLs

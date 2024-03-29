@@ -1,7 +1,0 @@
-uuid
-redis
-types-redis
-apache-airflow
-lxml
-bs4
-requests

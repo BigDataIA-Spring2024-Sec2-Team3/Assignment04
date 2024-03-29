@@ -1,3 +1,0 @@
-bcrypt
-python-dotenv
-snowflake-sqlalchemy
