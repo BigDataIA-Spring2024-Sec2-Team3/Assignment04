@@ -1,17 +1,18 @@
 version: "3.8"
 
-networks: 
- Assignment04:
+networks:
+  Assignment04:
+    driver: bridge
 
 services:
   streamlit:
     build:
       context: ./Streamlit
-      dockerfile: ./dockerfile  # Assuming the Dockerfile is named "dockerfile" within the Streamlit directory
+      dockerfile: ./dockerfile
     ports:
       - "8503:8503"
     volumes:
-      - ./Streamlit:/Streamlit  # Mapping to /Streamlit directory inside the container
+      - ./Streamlit:/Streamlit
       - ~/.aws:/root/.aws:ro
     networks:
       - Assignment04
@@ -19,11 +20,11 @@ services:
   fastapi:
     build:
       context: ./FastAPI
-      dockerfile: ./dockerfile  # Assuming the Dockerfile is named "dockerfile" within the FastAPI directory
+      dockerfile: ./dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./FastAPI:/FastAPI  # Mapping to /FastAPI directory inside the container
+      - ./FastAPI:/FastAPI
     networks:
       - Assignment04
 
@@ -31,6 +32,11 @@ services:
     image: apache/airflow:latest
     ports:
       - "8081:8081"
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False  # Disable loading of example DAGs
+    volumes:
+      - ./dags:/opt/airflow/dags  # Mount DAGs directory
+      - ./logs:/opt/airflow/logs  # Mount logs directory
+      - ./plugins:/opt/airflow/plugins  # Mount plugins directory
     networks:
       - Assignment04
-
