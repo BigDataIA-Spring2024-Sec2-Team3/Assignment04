@@ -4,3 +4,4 @@ sqlalchemy
 python-dotenv
 snowflake-sqlalchemy
 pydantic
+apache-airflow

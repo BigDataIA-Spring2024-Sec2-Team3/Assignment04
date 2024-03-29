@@ -10,15 +10,15 @@
 
 # CMD ["uvicorn", "main:app", "--port", "8000" ,"--reload"]
 
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
+# FROM tiangolo/uvicorn-gunicorn-fastapi:python3.10
 
-WORKDIR /FastAPI
+FROM python:3.10.12
 
-COPY requirements.txt .
+WORKDIR /app
+
+COPY main.py requirements.txt /app/
 RUN pip install -r requirements.txt
-
-COPY main.py .
 
 EXPOSE 8000
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000", "--timeout-keep-alive", "120"]
