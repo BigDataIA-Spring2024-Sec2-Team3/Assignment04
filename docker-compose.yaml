@@ -1,0 +1,42 @@
+version: "3.8"
+
+networks:
+  Assignment04:
+    driver: bridge
+
+services:
+  streamlit:
+    build:
+      context: ./Streamlit
+      dockerfile: ./dockerfile
+    ports:
+      - "8503:8503"
+    volumes:
+      - ./Streamlit:/Streamlit
+      - ~/.aws:/root/.aws:ro
+    networks:
+      - Assignment04
+
+  fastapi:
+    build:
+      context: ./FastAPI
+      dockerfile: ./dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./FastAPI:/FastAPI
+    networks:
+      - Assignment04
+
+  airflow:
+    image: apache/airflow:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False  # Disable loading of example DAGs
+    volumes:
+      - ./dags:/opt/airflow/dags  # Mount DAGs directory
+      - ./logs:/opt/airflow/logs  # Mount logs directory
+      - ./plugins:/opt/airflow/plugins  # Mount plugins directory
+    networks:
+      - Assignment04
