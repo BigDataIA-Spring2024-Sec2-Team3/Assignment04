@@ -1,42 +1,48 @@
 version: "3.8"
 
 networks:
-  Assignment04:
+  assignment04:
     driver: bridge
 
 services:
+  # Streamlit service for your Streamlit application
   streamlit:
     build:
-      context: ./Streamlit
+      context: ./streamlit
       dockerfile: ./dockerfile
     ports:
       - "8503:8503"
     volumes:
-      - ./Streamlit:/Streamlit
+      - ./streamlit:/streamlit
       - ~/.aws:/root/.aws:ro
     networks:
-      - Assignment04
+      - assignment04
 
+  # FastAPI service for your FastAPI application
   fastapi:
     build:
-      context: ./FastAPI
+      context: ./fastapi
       dockerfile: ./dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./FastAPI:/FastAPI
+      - ./fastapi:/fastapi
     networks:
-      - Assignment04
+      - assignment04
 
+  # Airflow service for your Apache Airflow instance
   airflow:
-    image: apache/airflow:latest
+    build:
+      context: ./airflow
+      dockerfile: ./dockerfile
     ports:
-      - "8081:8081"
+      - "8080:8080"
     environment:
       - AIRFLOW__CORE__LOAD_EXAMPLES=False  # Disable loading of example DAGs
     volumes:
-      - ./dags:/opt/airflow/dags  # Mount DAGs directory
-      - ./logs:/opt/airflow/logs  # Mount logs directory
-      - ./plugins:/opt/airflow/plugins  # Mount plugins directory
+      - ./airflow/dags:/opt/airflow/dags  # Mount existing DAGs directory
+      - ./airflow/logs:/opt/airflow/logs  # Mount existing logs directory
+      - ./airflow/plugins:/opt/airflow/plugins  # Mount existing plugins directory
+    user: "0:0"
     networks:
-      - Assignment04
+      - assignment04
