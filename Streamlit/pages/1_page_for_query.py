@@ -30,12 +30,12 @@ SNOWFLAKE_WAREHOUSE = os.getenv("SNOWFLAKE_WAREHOUSE")
 SNOWFLAKE_DATABASE = os.getenv("SNOWFLAKE_DATABASE")
 SNOWFLAKE_SCHEMA = os.getenv("SNOWFLAKE_SCHEMA")
 
-st.write(SNOWFLAKE_PASSWORD)
-st.write(SNOWFLAKE_ACCOUNT)
-st.write(SNOWFLAKE_USER)
-st.write(SNOWFLAKE_WAREHOUSE)
-st.write(SNOWFLAKE_SCHEMA)
-st.write(sql_query)
+# st.write(SNOWFLAKE_PASSWORD)
+# st.write(SNOWFLAKE_ACCOUNT)
+# st.write(SNOWFLAKE_USER)
+# st.write(SNOWFLAKE_WAREHOUSE)
+# st.write(SNOWFLAKE_SCHEMA)
+# st.write(sql_query)
 
 # execute button
 if st.button('Run Query'):
