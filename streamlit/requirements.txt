@@ -1,6 +1,0 @@
-streamlit
-boto3
-pydantic
-snowflake
-python-dotenv
-requests
