@@ -1,0 +1,13 @@
+FROM python:3.10.12
+
+WORKDIR /Streamlit
+
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY main.py .
+COPY pages /Streamlit/pages
+
+EXPOSE 8503
+
+CMD ["streamlit", "run", "main.py", "--server.port", "8503"]

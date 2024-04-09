@@ -1,0 +1,8 @@
+requests
+PyPDF2
+apache-airflow
+python-dotenv
+bcrypt
+boto3
+lxml
+sqlalchemy
