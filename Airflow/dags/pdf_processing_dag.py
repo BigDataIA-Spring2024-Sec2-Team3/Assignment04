@@ -39,7 +39,6 @@ def delete_all_files():
                 os.remove(file_path)
                 print(f"Deleted: {file_path}")
     else:
-        # capture by airflow logs
         logging.error('No Path for files')
 
 
