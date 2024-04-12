@@ -1,6 +1,8 @@
-uuid
-redis
-types-redis
+requests
+PyPDF2
 apache-airflow
+python-dotenv
+bcrypt
+boto3
 lxml
-bs4
+sqlalchemy

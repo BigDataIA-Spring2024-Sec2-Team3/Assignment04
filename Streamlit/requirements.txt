@@ -1,4 +1,5 @@
 streamlit
 boto3
-pydantic
-snowflake
+snowflake-sqlalchemy
+pandas
+python-dotenv
